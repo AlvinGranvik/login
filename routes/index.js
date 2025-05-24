@@ -7,7 +7,7 @@ const router = express.Router()
 // Root route
 router.get("/", (req, res) => {
   if (req.session.userId) {
-    res.redirect("/home")
+    res.redirect("/loggedin")
   } else {
     res.redirect("/login")
   }
@@ -26,7 +26,7 @@ router.get("/login", (req, res) => {
   const views = req.session.views || 0
   req.session.views = views + 1
 
-  const msg = views > 0 ? "Wrong username or password" : "Log into existing account"
+  const msg = views > 0 ? "Username or password is incorrect!" : "Log into existing account"
   res.render("login.njk", { title: "Log in", message: msg })
 })
 
@@ -41,7 +41,7 @@ router.post("/login", async (req, res) => {
     if (isValid) {
       req.session.userId = user.id
       req.session.username = user.name
-      return res.redirect("/home")
+      return res.redirect("/loggedin")
     }
   }
 
@@ -50,22 +50,22 @@ router.post("/login", async (req, res) => {
 })
 
 // Account creation GET
-router.get("/account/new", (req, res) => {
+router.get("/user/new", (req, res) => {
   const views = req.session.views || 0
   req.session.views = views + 1
 
   const msg = views > 0 ? "Username already exists" : "Register account"
-  res.render("account_create.njk", { title: "Account creation", message: msg, views })
+  res.render("user.create.njk", { title: "User creation", message: msg, views })
 })
 
 // Account creation POST
-router.post("/account/new", async (req, res) => {
+router.post("/user/new", async (req, res) => {
   const { name, password } = req.body
 
   const existingUser = await db.get(`SELECT * FROM user WHERE name = ?`, [name])
   if (existingUser) {
     req.session.views = (req.session.views || 0) + 1
-    return res.redirect("/account/new")
+    return res.redirect("/user/new")
   }
 
   const hashedPassword = await bcrypt.hash(password, 10)
@@ -76,7 +76,7 @@ router.post("/account/new", async (req, res) => {
 })
 
 // Home route
-router.get("/home", async (req, res) => {
+router.get("/loggedin", async (req, res) => {
   if (req.session.userId) {
     res.render("index.njk", {
       title: "Home",
