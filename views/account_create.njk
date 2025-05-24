@@ -1,41 +1,23 @@
 {% extends "layout.njk" %}
 
 {% block content %}
+
 <main>
-  
-
   <h1>{{ title }}</h1>
-  
   <p>{{ message }}</p>
-
   <p>views: {{ views }}</p>
-  
-
   <form action="/account/new" method="POST">
-    
     <label for="name">Username</label>
-    <div>
-        <input type="text" name="name" id="name"></br>
-    </div>
+    <input type="text" name="name" id="name">
     <label for="password">Password</label>
-    <div>
-      <input type="password" name="password" id="password"></br>
-    </div>
-    
-    
-    
-
-    
+    <input type="password" name="password" id="password">
     <button type="submit">Register</button>
-
     <a href="/" class="button-icon">
       <span class="button-icon">
         Back
       </span>
     </a>
-    
   </form>
-
-  
 </main>
+
 {% endblock %}
