@@ -26,8 +26,8 @@ router.get("/login", (req, res) => {
   const views = req.session.views || 0
   req.session.views = views + 1
 
-  const msg = views > 0 ? "Username or password is incorrect!" : "Log into existing account"
-  res.render("login.njk", { title: "Log in", message: msg })
+  const msg = views > 0 ? "Either your username and/or password is incorrect, or maybe you just refreshed this page" : "Log into an existing account, or make a new one"
+  res.render("login.njk", { title: "Log in", message: msg, views })
 })
 
 // Login POST
