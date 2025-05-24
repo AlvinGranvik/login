@@ -1,0 +1,32 @@
+{% extends "layout.njk" %}
+{% block content %}
+
+<main>
+    <h1>{{title}}</h1>
+<h2>Create a Shit™</h2>
+<form action="/home" method="POST">
+    
+    <label for="message">Message</label>
+    <div>
+        <textarea type="text" name="message" id="message"></textarea>
+    </div>
+    
+    
+    <select name="author_id" id="author_id">
+      
+      <option value= {{user}} >Id: {{user}}</option>
+      
+    </select>
+    
+
+    
+    <button type="submit">Shit</button>
+  </form>
+
+  <a href="/home">
+    <button>Back</button>
+  </a>
+  
+</main>
+
+{% endblock %} 
